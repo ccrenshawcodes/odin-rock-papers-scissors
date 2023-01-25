@@ -23,7 +23,7 @@ function getPlayerChoice() {
 }
 
 //initialize a counter.
-let counter;
+//let counter;
 
 //compare one computer generated val with one user-provided val
 //problems: what return value do I need to keep a score in the next func?
@@ -32,54 +32,49 @@ function playRound (playerSelection, computerSelection) {
 
     if (playerSelection === computerSelection) {
         console.log('tie! no new points');
+        return 'tie';
     } else if (computerSelection === 'rock') {
         if (playerSelection === 'paper') {
             console.log('You win! Paper beats rock.');
-            //return counter++;
             return 'win';
         } else if (playerSelection === 'scissors') {
             console.log('You lose! Rock beats Scissors.')
-            //return counter--;
             return 'lose';
         }
     } else if (computerSelection === 'paper') {
         if (playerSelection === 'rock') {
             console.log('You lose! Paper beats rock.');
-            //return counter--;
             return 'lose';
         } else if (playerSelection === 'scissors') {
             console.log('You win! Scissors beat paper.');
-            //return counter++;
             return 'win';
         }
     } else if (computerSelection === 'scissors') {
         if (playerSelection === 'rock')  {
             console.log('You win! Rock beats scissors.');
-            //return counter++;
             return 'win';
         } else if (playerSelection === 'paper') {
             console.log('You lose! Scissors beat paper.');
-            //return counter--;
             return 'lose';
         }
     }
-    //return counter;
 }
 
 
 
 //playRound repeated 5 times. We tally the score.
-//problems: not counting like we want to
-function game () {
+function game (output) {
+    let counter = 0;
     for (let i = 0; i < 5; i++) {
-        playRound(getPlayerChoice(), getComputerChoice());
+        output = playRound(getPlayerChoice(), getComputerChoice());
+        if (output === 'win') {
+            counter++;
+        } else if (output === 'lose') {
+            counter--;
+        }
     }
-    if(round == 'win') {
-        console.log('nice job');
-    } else {
-        console.log('better luck next time');
-    }
-    //need to increment the counter here I think
+    console.log(counter);
+    return counter;
 }
 
 game();
