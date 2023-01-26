@@ -1,5 +1,5 @@
 //get a random number.
-//convert number to 'rock', 'paper' or 'scissors'.
+//assign number to string value.
 function getComputerChoice() {
     let compChoice = Math.floor(Math.random() * 3) + 1;
     switch (compChoice) {
@@ -22,11 +22,7 @@ function getPlayerChoice() {
     return input;
 }
 
-//initialize a counter.
-//let counter;
-
 //compare one computer generated val with one user-provided val
-//problems: what return value do I need to keep a score in the next func?
 function playRound (playerSelection, computerSelection) {
     console.log(`player chose: ${playerSelection}. Computer chose: ${computerSelection}.`);
 
@@ -58,11 +54,14 @@ function playRound (playerSelection, computerSelection) {
             return 'lose';
         }
     }
+    if (playerSelection !== 'rock' || playerSelection !== 'paper' || playerSelection !== 'scissors') {
+        console.log('please enter a valid input or check your spelling.');
+    }
 }
 
 
 
-//playRound repeated 5 times. We tally the score.
+//playRound repeated 5 times. Tally the score.
 function game (output) {
     let counter = 0;
     for (let i = 0; i < 5; i++) {
@@ -74,7 +73,7 @@ function game (output) {
         }
     }
     console.log(counter);
-    return counter;
+    //return counter;
 }
 
 game();
