@@ -15,56 +15,67 @@ function getComputerChoice() {
     }
 }
 
-
+//global variables list!
 const results = document.querySelector('#results');
 const score = document.querySelector('#playerScore');
 const compScore = document.querySelector('#compScore');
 const winner = document.querySelector('#winner');
-let counter = 0; 
+let playerCounter = 0; 
+let compCounter = 0;
 
-//compare one computer generated val with one user-provided val
+
+function playerLose() {
+    playerCounter > 0 ? playerCounter-- : playerCounter = 0;
+    compCounter++;
+    score.textContent = `Your score: ${playerCounter}`; 
+    compScore.textContent = `Computer score: ${compCounter}`;
+    
+}
+
+function playerWin() {
+    playerCounter++;
+    compCounter > 0 ? compCounter-- : compCounter = 0;
+    score.textContent = `Your score: ${playerCounter}`; 
+    compScore.textContent = `Computer score: ${compCounter}`;
+    
+}
+
+
+//compare one user generated val with the user inputted val
 const playRound = (playerSelection, computerSelection) => {
     console.log(`player chose: ${playerSelection}. Computer chose: ${computerSelection}.`);
 
     if (playerSelection === computerSelection) {
         results.textContent = 'tie! No new points.';
-        return 'tie';
-    } else if (computerSelection === 'rock') {
-        if (playerSelection === 'paper') {
-            results.textContent = 'You win! Paper beats rock.';
-            score.textContent = counter++;
-            return 'win';
-        } else if (playerSelection === 'scissors') {
-            results.textContent = 'You lose! Rock beats scissors.';
-            score.textContent = counter--;
-            return 'lose';
+    } else if (playerSelection === 'rock') {
+        if (computerSelection === 'paper') {
+            playerLose();
+            results.textContent = `You lose! ${computerSelection} beats ${playerSelection}.`;
+        } else if (computerSelection === 'scissors') {
+            playerWin();
+            results.textContent = `You win! ${playerSelection} beats ${computerSelection}.`;
         }
-    } else if (computerSelection === 'paper') {
-        if (playerSelection === 'rock') {
-            results.textContent = 'You lose! Paper beats rock.'
-            score.textContent = counter--;
-            return 'lose';
-        } else if (playerSelection === 'scissors') {
-            results.textContent = 'You win! Scissors beat paper.';
-            score.textContent = counter++;
-            return 'win';
+    } else if (playerSelection === 'paper') {
+        if (computerSelection === 'scissors') {
+            playerLose();
+            results.textContent = `You lose! ${computerSelection} beats ${playerSelection}.`;
+        } else if (computerSelection === 'rock') {
+            playerWin();
+            results.textContent = `You win! ${playerSelection} beats ${computerSelection}.`;
         }
-    } else if (computerSelection === 'scissors') {
-        if (playerSelection === 'rock')  {
-            results.textContent = 'You win! Rock beats scissors.';
-            score.textContent = counter++;
-            return 'win';
-        } else if (playerSelection === 'paper') {
-            results.textContent = 'You lose! Scissors beat paper.';
-            score.textContent = counter--;
-            return 'lose';
+    } else if (playerSelection === 'scissors') {
+        if (computerSelection === 'rock') {
+            playerLose();
+            results.textContent = `You lose! ${computerSelection} beats ${playerSelection}.`;
+        } else if (computerSelection === 'paper') {
+            playerWin();
+            results.textContent = `You win! ${playerSelection} beats ${computerSelection}.`;
         }
     }
 }
 
 //put event listeners on the buttons.
 //run playRound when clicked to compare button value with computer choice
-
 function playOnClick() {
     const btns = document.querySelectorAll("button");
     btns.forEach((button) => {
@@ -75,18 +86,22 @@ function playOnClick() {
 }
 
 //playRound repeated until player or computer gets 5 points.
-
 function playToFive() {
-    playOnClick();
+    if (playerCounter < 5 && compCounter < 5) {
+        playOnClick();
+    } else if (playerCounter >=5 || compCounter >= 5) {
+        //document.removeChild('button');
+        if (playerCounter >= 5) {
+            winner.textContent = 'You win!';
+        } else if (compCounter >= 5) {
+            winner.textContent = 'wow.... you lost to a computer';
+        }
+    }
+    
 }
 
 playToFive();
 
 
 
-
-/*How will I tally points if I can't return any data out of playon click?
-I could publish it to the page, then read from the page to find the score?
-There's also a bit in the MDN docs about getting data out of an event handler:
-https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
-I don't understand it though.  */
+//figure out how to end the game.
